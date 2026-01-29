@@ -11,16 +11,5 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        CurrencyDAO dao = new CurrencyDAO();
-
-        List<Currency> currencyList = dao.getAllCurrencies();
-        System.out.println("Найдено валют " + currencyList.size());
-        for(Currency c : currencyList) {
-            System.out.println(c.getName() + " - " + c.getCode());
-        }
-
-        Currency newCurrency = dao.getCurrencyByCode("BYN");
-        System.out.println(newCurrency.getName() + " " + newCurrency.getSign());
-
     }
 }

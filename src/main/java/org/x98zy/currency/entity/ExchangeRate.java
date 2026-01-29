@@ -39,22 +39,4 @@ public class ExchangeRate {
         this.targetCurrency = targerCurrency;
     }
 
-    public int getBaseCurrencyId() {
-        return baseCurrencyId;
-    }
-
-    public void setBaseCurrencyId(int baseCurrencyId) {
-        this.baseCurrencyId = baseCurrencyId;
-    }
-
-    public int getTargetCurrencyId() {
-        return targetCurrencyId;
-    }
-
-    public void setTargetCurrencyId(int targerCurrencyId) {
-        this.targetCurrencyId = targerCurrencyId;
-    }
-
-    private int baseCurrencyId;
-    private int targetCurrencyId;
 }

@@ -12,61 +12,68 @@ import java.util.List;
 
 public class CurrencyDAO {
 
-    public List<Currency> getAllCurrencies() {
+    public List<Currency> getAllCurrencies() throws SQLException {
 
         List<Currency> currencies = new ArrayList<>();
         String sql = "SELECT id, code, name, sign FROM currencies ORDER BY code";
-
-        try (Connection conn = ConnectionPool.getConnection();
-             PreparedStatement stmnt = conn.prepareStatement(sql);
-             ResultSet rs = stmnt.executeQuery()) {
-            while (rs.next()) {
-                Currency currency = new Currency();
-                currency.setId(rs.getLong("id"));
-                currency.setCode(rs.getString("code"));
-                currency.setName(rs.getString("name"));
-                currency.setSign(rs.getString("sign"));
-                currencies.add(currency);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("sql error");
+        Connection conn = ConnectionPool.getConnection();
+        PreparedStatement stmnt = conn.prepareStatement(sql);
+        ResultSet rs = stmnt.executeQuery();
+        while (rs.next()) {
+            Currency currency = new Currency();
+            currency.setId(rs.getLong("id"));
+            currency.setCode(rs.getString("code"));
+            currency.setName(rs.getString("name"));
+            currency.setSign(rs.getString("sign"));
+            currencies.add(currency);
         }
         return currencies;
     }
 
-    public Currency getCurrencyByCode(String code) {
+    public Currency getCurrencyByCode(String code) throws SQLException{
 
         String sql = "SELECT id, code, name, sign FROM currencies WHERE code = ?";
-        try (Connection conn = ConnectionPool.getConnection();
-             PreparedStatement query = conn.prepareStatement(sql)) {
-            query.setString(1, code.toUpperCase());
+        Connection conn = ConnectionPool.getConnection();
+        PreparedStatement query = conn.prepareStatement(sql);
+        query.setString(1, code.toUpperCase());
 
-            try (ResultSet rs = query.executeQuery()) {
-                if (rs.next()) {
-                    Currency currency = new Currency();
-                    currency.setId(rs.getLong("id"));
-                    currency.setCode(rs.getString("code"));
-                    currency.setName(rs.getString("name"));
-                    currency.setSign(rs.getString("sign"));
-                    return currency;
-                }
-            } catch (SQLException e) {
-                System.out.println("sql error");
-            }
-        } catch (SQLException e)
-        {
-            System.out.println("Error");
+        ResultSet rs = query.executeQuery();
+        if (rs.next()) {
+            Currency currency = new Currency();
+            currency.setId(rs.getLong("id"));
+            currency.setCode(rs.getString("code"));
+            currency.setName(rs.getString("name"));
+            currency.setSign(rs.getString("sign"));
+            return currency;
         }
-        return null;
+        else return null;
     }
 
-    public int insertCurrency(String code, String name, String sign) {
+    public Currency getCurrencyById(int id) throws SQLException {
+
+        String sql = "SELECT id, code, name, sign FROM currencies WHERE id = ?";
+        Connection conn = ConnectionPool.getConnection();
+        PreparedStatement query = conn.prepareStatement(sql);
+        query.setInt(1, id);
+        ResultSet rs = query.executeQuery();
+        if (rs.next()) {
+            Currency currency = new Currency();
+            currency.setId(rs.getLong("id"));
+            currency.setCode(rs.getString("code"));
+            currency.setName(rs.getString("name"));
+            currency.setSign(rs.getString("sign"));
+            return currency;
+        }
+        else return null;
+    }
+
+    public int insertCurrency(String code, String name, String sign) throws SQLException {
 
         String sql = "INSERT INTO currencies (code, name, sign) VALUES (?, ?, ?) RETURNING id";
 
         try (Connection conn = ConnectionPool.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql)) {
+
             statement.setString(1, code);
             statement.setString(2, name);
             statement.setString(3, sign);
@@ -78,11 +85,9 @@ public class CurrencyDAO {
                     return generatedId;
                 }
             }
-
-        } catch (SQLException e) {
-            System.out.println("Sql error");
+            }
+        return -1;
         }
 
-        return -1;
     }
-}
+
