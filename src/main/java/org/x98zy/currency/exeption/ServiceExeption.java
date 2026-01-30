@@ -2,7 +2,11 @@ package org.x98zy.currency.exeption;
 
 public class ServiceExeption extends Exception {
 
-    private final int httpStatusCode;
+    private int httpStatusCode;
+
+    public ServiceExeption() {
+
+    }
 
     public ServiceExeption(String message, int httpStatusCode) {
         super(message);
