@@ -2,8 +2,9 @@ package org.x98zy.currency.entity;
 
 public class Currency {
     private Long id;
-    private String code;
     private String name;
+    private String code;
+    private String sign;
 
     public String getSign() {
         return sign;
@@ -36,8 +37,5 @@ public class Currency {
     public void setId(Long id) {
         this.id = id;
     }
-
-    private String sign;
-
 
 }

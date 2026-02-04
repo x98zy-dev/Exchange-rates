@@ -22,6 +22,7 @@ public class ExchangeService {
         double rate = 0;
         double amount;
         if (!validator.isValidCurrencyCode(baseCurrencyCode) || !validator.isValidCurrencyCode(targetCurrencyCode)) {
+            System.out.println("invalid data");
             throw new InvalidDataExeption();
         }
 
@@ -45,11 +46,13 @@ public class ExchangeService {
                 }
             }
             if(rate == 0) {
+                System.out.println("rate not found");
                 throw new ExchangeRateNotFoundExeption();
             }
             try {
                 amount = Double.parseDouble(stringAmount);
                 if (amount <= 0) {
+                    System.out.println("invalid amount");
                     throw new InvalidAmountExeption();
                 }
                 double calculatedAmount = amount * rate;
@@ -57,9 +60,11 @@ public class ExchangeService {
                 Currency targetCurrency = currencyDAO.getCurrencyByCode(targetCurrencyCode);
                 return new ExchangeResultDTO(baseCurrency, targetCurrency, rate, amount, calculatedAmount);
             } catch (NumberFormatException e) {
+                System.out.println("number format exeption");
                 throw new ServiceExeption();
             }
         } catch (SQLException e) {
+            System.out.println("exeption e: " + e);
             throw new ServiceExeption();
         }
     }

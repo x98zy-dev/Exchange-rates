@@ -93,6 +93,45 @@ public class ExchangeRatesServlet extends HttpServlet {
         else setMessage(res, 400, "Отсутствует нужное поле формы или данные некорректны");
     }
 
+    @Override
+    public void service(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        if("Patch".equalsIgnoreCase(req.getMethod())) {
+            doPatch(req, res);
+            return;
+        }
+        super.service(req, res);
+    }
+
+    public void doPatch(HttpServletRequest req, HttpServletResponse res) throws IOException {
+
+        res.setContentType("application/json;charset=UTF-8");
+
+        double rate = 0;
+        try {
+            rate = Double.parseDouble(req.getParameter("rate"));
+            if(rate <= 0)
+            {
+                setMessage(res, 400, "Обменный курс некорректен");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            setMessage(res, 400, "Отсутствует нужное поле формы");
+            return;
+        }
+        String pathInfo = req.getPathInfo();
+        if(pathInfo.length() != 7) {
+            setMessage(res, 400, "Коды валют пары отсутствуют в адресе");
+            return;
+        }
+        else {
+            String baseCurrencyCode = pathInfo.substring(1,4);
+            String targetCurrencyCode = pathInfo.substring(4,7);
+            if(validator.isValidCurrencyCode(baseCurrencyCode) && validator.isValidCurrencyCode(targetCurrencyCode)) {
+                findExchangeRateByCode(req, res, baseCurrencyCode, targetCurrencyCode);
+                return;
+            }
+        }
+    }
     public void findAllExchangeRates(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
         try {

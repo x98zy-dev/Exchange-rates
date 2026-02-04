@@ -22,8 +22,8 @@ public class CurrencyDAO {
         while (rs.next()) {
             Currency currency = new Currency();
             currency.setId(rs.getLong("id"));
-            currency.setCode(rs.getString("code"));
             currency.setName(rs.getString("name"));
+            currency.setCode(rs.getString("code"));
             currency.setSign(rs.getString("sign"));
             currencies.add(currency);
         }
@@ -41,8 +41,8 @@ public class CurrencyDAO {
         if (rs.next()) {
             Currency currency = new Currency();
             currency.setId(rs.getLong("id"));
-            currency.setCode(rs.getString("code"));
             currency.setName(rs.getString("name"));
+            currency.setCode(rs.getString("code"));
             currency.setSign(rs.getString("sign"));
             return currency;
         }
@@ -59,8 +59,8 @@ public class CurrencyDAO {
         if (rs.next()) {
             Currency currency = new Currency();
             currency.setId(rs.getLong("id"));
-            currency.setCode(rs.getString("code"));
             currency.setName(rs.getString("name"));
+            currency.setCode(rs.getString("code"));
             currency.setSign(rs.getString("sign"));
             return currency;
         }

@@ -13,9 +13,9 @@ public class ExchangeResultDTO {
                              double rate, double amount, double convertedAmount) {
         this.baseCurrency = baseCurrency;
         this.targetCurrency = targetCurrency;
-        this.rate = rate;
-        this.amount = amount;
-        this.convertedAmount = convertedAmount;
+        this.rate =  Math.round(rate * 100.0) / 100.0;
+        this.amount = Math.round(amount * 100.0) / 100.0;
+        this.convertedAmount = Math.round(convertedAmount * 100.0) / 100.0;;
     }
 
     public Currency getBaseCurrency() { return baseCurrency; }

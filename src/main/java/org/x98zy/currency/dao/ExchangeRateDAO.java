@@ -38,7 +38,9 @@ public class ExchangeRateDAO {
 
         ExchangeRate exchangeRate = new ExchangeRate();
         CurrencyDAO dao = new CurrencyDAO();
-        String query = "SELECT id, BaseCurrencyId, TargetCurrencyId, rate FROM exchange_rates WHERE BaseCurrencyId = ? AND TargetCurrencyId = ?";
+        String query = "SELECT id, \"BaseCurrencyId\", \"TargetCurrencyId\", rate " +
+                "FROM exchange_rates " +
+                "WHERE \"BaseCurrencyId\" = ? AND \"TargetCurrencyId\" = ?";
         exchangeRate.setBaseCurrency(dao.getCurrencyByCode(baseCode));
         exchangeRate.setTargetCurrency(dao.getCurrencyByCode(targetCode));
         if (exchangeRate.getBaseCurrency() == null || exchangeRate.getTargetCurrency() == null)
